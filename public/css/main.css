@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+}
+
+body {
+    padding: 1em;
+}
+
+.content {
+    float:left;
+}
+
+.history {
+    float: left;
+}
+
+.video {
+    margin-left: 50px;
+    float: left;
+}
+
+/* Make it a marquee */
+.marquee {
+    display: inline-block;
+    width: 400px;
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    box-sizing: border-box;
+    animation: marquee 10s linear infinite;
+    -webkit-animation: marquee 10s linear infinite;
+}
+
+.marquee:hover {
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+}
+
+/* Make it move */
+@keyframes marquee {
+    0% {
+        text-indent: 27.5em
+    }
+    100% {
+        text-indent: -400px
+    }
+}
+
+/* Make it move */
+@-webkit-keyframes marquee {
+    0%   { text-indent: 27.5em }
+    100% { text-indent: -400px }
+}
