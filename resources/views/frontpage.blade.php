@@ -13,7 +13,7 @@
     <h2>Wie moet er koud leggen?</h2>
     <em class="marquee">{{ $current_bringer->name }}</em>
     <h2>Hoe lang nog?</h2>
-    <p><strong>Het is tijd voor bier!</strong></p>
+    <p><strong>{{ $time }}</strong></p>
 </div>
 <div class="history"><h2>Laatste koudmakers</h2>
     <ul>

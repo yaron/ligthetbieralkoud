@@ -10,12 +10,13 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use Illuminate\Support\Collection;
 
 class BeerController Extends Controller{
   public function Frontpage() {
     $cold = getenv('COLD');
     $bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
-    $current_bringer = $bringers->pop();
+    $current_bringer = $bringers->shift();
     $youtube = getenv('YOUTUBE');
 
     $sec = strtotime('17:00 GMT+1') - $_SERVER['REQUEST_TIME'];
@@ -32,7 +33,7 @@ class BeerController Extends Controller{
   public function Json() {
     $cold = getenv('COLD');
     $bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
-    $current_bringer = $bringers->pop()->name;
+    $current_bringer = $bringers->shift()->name;
     $bringers = $bringers->pluck('name');
     $youtube = getenv('YOUTUBE');
     return response()->json(compact('cold', 'bringers', 'current_bringer', 'youtube'));
