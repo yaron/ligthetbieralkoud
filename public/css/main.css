@@ -5,10 +5,31 @@
 html {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
+    height: 100%;
+    widht: 100%;
 }
 
 body {
     padding: 1em;
+    height: 100%;
+    widht: 100%;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: url('../images/bg.jpg') no-repeat center;
+    background-size: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.container {
+    z-index: 2;
+    position: relative;
+    max-width: 1250px;
+    margin: 0 auto;
 }
 
 .content {
@@ -20,6 +41,7 @@ body {
 }
 
 .video {
+    margin-top: 150px;
     margin-left: 50px;
     float: left;
 }
@@ -56,3 +78,5 @@ body {
     0%   { text-indent: 27.5em }
     100% { text-indent: -400px }
 }
+
+
