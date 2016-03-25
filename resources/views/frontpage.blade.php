@@ -9,6 +9,9 @@
 
 </head>
 <body>
+@if (Auth::check())
+    <div class="userinfo">Currently logged in user: {{ Auth::user()->name }}</div>
+@endif
 <div class="overlay"></div>
 <div class="container">
     <div class="content">
