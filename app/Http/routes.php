@@ -15,10 +15,14 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'BeerController@Frontpage');
     Route::get('/json', 'BeerController@Json');
 
-    Route::get('/youtube', [
-      'middleware' => 'auth',
-      'uses' => 'YoutubeController@index'
-    ]);
+    Route::group(['middleware' => ['auth']], function () {
+        Route::get('/youtube', 'YoutubeController@index');
+        Route::get('/youtube/add', [
+          'uses' => 'YoutubeController@create',
+          'as' => 'youtube.add'
+        ]);
+        Route::post('/youtube/add', 'YoutubeController@postCreate');
+    });
 
     // Authentication routes...
     Route::get('auth/login', 'Auth\AuthController@getLogin');

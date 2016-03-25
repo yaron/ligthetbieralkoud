@@ -15,7 +15,7 @@ class CreateYoutubeTable extends Migration
         Schema::create('youtubes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('youtube_id')->index();
-            $table->string('used')->index();
+            $table->date('used')->index();
         });
     }
 

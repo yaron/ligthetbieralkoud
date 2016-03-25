@@ -13,7 +13,11 @@ use App\Youtube;
 class YoutubeController Extends Controller {
 
   public function index() {
-    $youtubes = Youtube::all();
+    $youtubes = Youtube::orderBy('used', 'desc')->get();
     return view('youtube.list', compact('youtubes'));
+  }
+
+  public function create() {
+    return view('youtube.add');
   }
 }
