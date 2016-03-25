@@ -10,12 +10,17 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-class BeerController Extends Controller{
+class BeerController Extends Controller {
   public function Frontpage() {
     $cold = getenv('COLD');
     $bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
+    if ($bringers->isEmpty()) {
+      throw new \ErrorException('No users to choose.');
+    }
+
     $current_bringer = $bringers->shift();
     $youtube = getenv('YOUTUBE');
 
