@@ -10,37 +10,60 @@ namespace App\Http\Controllers;
 
 
 use App\User;
+use App\Youtube;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class BeerController Extends Controller {
-  public function Frontpage() {
-    $cold = getenv('COLD');
-    $bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
-    if ($bringers->isEmpty()) {
+  protected $coldBool;
+  protected $cold;
+  protected $bringers;
+  protected $currentBringer;
+  protected $youtube;
+  protected $time;
+
+  protected function __constructor() {
+    $this->coldBool = (bool) getenv('COLD');
+    $this->cold = $this->coldBool ? 'Ja!' : 'Nee';
+
+    $this->bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
+    if ($this->bringers->isEmpty()) {
       throw new \ErrorException('No users to choose.');
     }
 
-    $current_bringer = $bringers->shift();
-    $youtube = getenv('YOUTUBE');
+    $this->currentBringer = $this->bringers->shift();
+    $this->youtube = Youtube::orderBy('used', 'desc')->first(['youtube_id'])->youtube_id;
 
     $sec = strtotime('17:00 GMT+1') - $_SERVER['REQUEST_TIME'];
     if ($sec > 0) {
-      $time = floor($sec/ 60 / 60) . ' Uren, ' . floor($sec/ 60) % 60 . ' minuten en ' . $sec % 60 . ' seconden.';
+      $this->time = floor($sec/ 60 / 60) . ' Uren, ' . floor($sec/ 60) % 60 . ' minuten en ' . $sec % 60 . ' seconden.';
     }
     else {
-      $time = 'Het is tijd voor bier!';
+      $this->time = 'Het is tijd voor bier!';
     }
-
-    return view('frontpage', compact('cold', 'bringers', 'current_bringer', 'youtube', 'time'));
+  }
+  
+  public function Frontpage() {
+    return view('frontpage', [
+      'coldBool' => $this->coldBool,
+      'cold' => $this->cold,
+      'bringers' => $this->bringers,
+      'current_bringer' => $this->currentBringer,
+      'youtube' => $this->youtube,
+      'time' => $this->time,
+    ]);
   }
 
   public function Json() {
-    $cold = getenv('COLD');
-    $bringers = User::orderBy('lastbrought', 'desc')->get(['name']);
-    $current_bringer = $bringers->shift()->name;
-    $bringers = $bringers->pluck('name');
-    $youtube = getenv('YOUTUBE');
-    return response()->json(compact('cold', 'bringers', 'current_bringer', 'youtube'));
+    return response()->json([
+      'cold' => $this->cold,
+      'bringers' => $this->bringers,
+      'current_bringer' => $this->currentBringer,
+      'youtube' => $this->youtube,
+    ]);
+  }
+
+  public function Update() {
+    return view('beer.update');
   }
 }
