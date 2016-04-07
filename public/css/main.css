@@ -29,7 +29,7 @@ body {
     z-index: 2;
     position: relative;
     max-width: 1250px;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .top-bar {

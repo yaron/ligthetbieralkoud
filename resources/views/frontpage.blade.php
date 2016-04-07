@@ -1,25 +1,9 @@
-<html>
-<head>
-    <title>Ligt het bier al koud punt NL</title>
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="icon" type="image/png" href="https://www.ligthetbieralkoud.nl/beer.png"/>
-    <meta name="abstract" content="Staat het bier koud? {{ $cold }}. Wie moet er halen? Jelle. Laatst bijgewerkt? vrijdag 15 januari"/>
-    <meta name="description" content="Staat het bier koud? {{ $cold }}. Wie moet er halen? Jelle. Laatst bijgewerkt? vrijdag 15 januari"/>
-
-
-</head>
-<body>
-<div class="top-bar">
-    <ul>
-        @if (Auth::check())
-            <li class="userinfo">Currently logged in user: {{ Auth::user()->name }}</li>
-        @else
-            <li class="userinfo">Currently not logged in. <a href="{{ route('auth.login') }}">Login</a></li>
-        @endif
-    </ul>
-</div>
-<div class="overlay"></div>
-<div class="container">
+@extends('main')
+@section('head')
+    <meta name="abstract" content="Staat het bier koud? {{ $cold }}. Wie moet er halen? {{ $current_bringer->name }}."/>
+    <meta name="description" content="Staat het bier koud? {{ $cold }}. Wie moet er halen? {{ $current_bringer->name }}."/>
+@endsection
+@section('content')
     <div class="content">
         <h2>Ligt het bier al koud?</h2>
         <p><strong>{{ $cold }}</strong></p>
@@ -38,6 +22,4 @@
     <div class="video">
         <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ $youtube }}?rel=0&showinfo=0" frameborder="0" allowfullscreen></iframe>
     </div>
-</div>
-</body>
-</html>
+@endsection
