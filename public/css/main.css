@@ -32,6 +32,22 @@ body {
     margin: 0 auto;
 }
 
+.top-bar {
+    width: 100%;
+    background: #101010;
+    height: 30px;
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+}
+
+.top-bar li {
+    list-style: none;
+    float: left;
+    color: #FFF;
+}
+
 .content {
     float:left;
 }

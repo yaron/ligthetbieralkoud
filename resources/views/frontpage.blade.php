@@ -9,9 +9,15 @@
 
 </head>
 <body>
-@if (Auth::check())
-    <div class="userinfo">Currently logged in user: {{ Auth::user()->name }}</div>
-@endif
+<div class="top-bar">
+    <ul>
+        @if (Auth::check())
+            <li class="userinfo">Currently logged in user: {{ Auth::user()->name }}</li>
+        @else
+            <li class="userinfo">Currently not logged in. <a href="{{ route('auth.login') }}">Login</a></li>
+        @endif
+    </ul>
+</div>
 <div class="overlay"></div>
 <div class="container">
     <div class="content">
