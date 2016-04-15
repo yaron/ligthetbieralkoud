@@ -14,6 +14,11 @@
 Route::group(['middleware' => ['web']], function () {
     Route::get('/', 'BeerController@Frontpage');
     Route::get('/json', 'BeerController@Json');
+    Route::get('/update', [
+        'uses' => 'BeerController@Update',
+        'as'  => 'beer.update',
+    ]);
+    Route::post('/update', 'BeerController@UpdateSave');
 
     Route::group(['middleware' => ['auth']], function () {
         Route::get('/youtube', 'YoutubeController@index');

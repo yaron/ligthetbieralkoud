@@ -9,10 +9,13 @@
 namespace App\Http\Controllers;
 
 
+use App\Setting;
 use App\User;
 use App\Youtube;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Mockery\CountValidator\Exception;
 
 class BeerController Extends Controller {
   protected $coldBool;
@@ -22,7 +25,7 @@ class BeerController Extends Controller {
   protected $youtube;
   protected $time;
 
-  protected function __constructor() {
+  public function __construct() {
     $this->coldBool = (bool) getenv('COLD');
     $this->cold = $this->coldBool ? 'Ja!' : 'Nee';
 
@@ -32,7 +35,12 @@ class BeerController Extends Controller {
     }
 
     $this->currentBringer = $this->bringers->shift();
-    $this->youtube = Youtube::orderBy('used', 'desc')->first(['youtube_id'])->youtube_id;
+    $youtube = Youtube::orderBy('used', 'desc')->first(['youtube_id']);
+    if (!$youtube) {
+      throw new \ErrorException('No youtube to show.');
+    }
+    $this->youtube = $youtube->youtube_id;
+
 
     $sec = strtotime('17:00 GMT+1') - $_SERVER['REQUEST_TIME'];
     if ($sec > 0) {
@@ -41,17 +49,19 @@ class BeerController Extends Controller {
     else {
       $this->time = 'Het is tijd voor bier!';
     }
-  }
-  
-  public function Frontpage() {
-    return view('frontpage', [
-      'coldBool' => $this->coldBool,
+
+    view()->share([
       'cold' => $this->cold,
+      'coldBool' => $this->coldBool,
       'bringers' => $this->bringers,
       'current_bringer' => $this->currentBringer,
       'youtube' => $this->youtube,
       'time' => $this->time,
     ]);
+  }
+  
+  public function Frontpage() {
+    return view('frontpage');
   }
 
   public function Json() {
@@ -65,5 +75,12 @@ class BeerController Extends Controller {
 
   public function Update() {
     return view('beer.update');
+  }
+
+  public function UpdateSave() {
+    Setting::updateOrCreate([
+      'name' => 'ColdUpdater',
+      'value' => Auth::User()->id,
+    ]);
   }
 }

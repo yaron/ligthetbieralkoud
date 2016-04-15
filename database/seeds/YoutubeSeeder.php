@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class YoutubeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(UserTableSeeder::class);
-        $this->call(YoutubeSeeder::class);
+        DB::table('youtubes')->insert([
+          'youtube_id' => 'Ish_BwyjOso',
+          'used' => 0,
+        ]);
     }
 }
